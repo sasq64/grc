@@ -164,6 +164,7 @@ prevcolour = colours['default']
 prevcount = "more"
 blockflag = 0
 freadline = sys.stdin.readline
+written = {}
 while 1:
     line = freadline()
     if line == "" :
@@ -211,7 +212,12 @@ while 1:
                         prevcount = "once"
                         pos = len(line)
                 if 'concat' in pattern:
-                    with open(pattern['concat'], 'a') as f :
+                    name = pattern['concat']
+                    mode = 'w'
+                    if written.has_key(name) :
+                        mode = 'a'
+                    written[name] = True
+                    with open(pattern['concat'], mode) as f :
                         f.write(line + '\n')
                     if 'colours' not in pattern:
                         break
